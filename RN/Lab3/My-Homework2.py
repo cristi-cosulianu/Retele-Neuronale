@@ -36,10 +36,8 @@ def createAndTrainPerceptron(digit):
     while (nrIterations > 0):
         trainSet = getTrainSet()
         for iterator in range(50000):
-            print(iterator, nrIterations, digit)
             x = trainSet[0][iterator]
             t = trainSet[1][iterator]
-            np.reshape(x,(784,1))
             z = np.dot(x, weights) + bias
             output = activation(z)
             
