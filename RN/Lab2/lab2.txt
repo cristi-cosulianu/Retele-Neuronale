@@ -1,0 +1,36 @@
+ttimcu@bitdefender.com
+students.info.uaic.ro\~andrei.timcu
+
+Retele neuronale pe 3 layere (INPUT, HIDDEN LAYER, OUTPUT).
+
+Daca avem mai multe hidden layere se numeste Deep Neural Network.
+
+------------------------- PERCEPTRON -------------------------
+ 
+Pentru un perceptron avem de initializat weighturile, bias.ul, 
+numarul de iteratii si rata de invatare. Acest pas se numeste 
+ajustare de hiper-parametri. (Pentru tema de preferat rata de
+invatar 0.01 sau 0.1).
+
+// allClassified - True daca toate sample.urile au fost clasificate
+while(!allClassified and nrIteratii > 0);
+    allClassified = True
+    // x si t -  date si label (expected output)
+    for each x,t in TrainingSet   :
+        // w - respectiv lui x dat ca input  
+        y = x * w + b
+        // activation - conditia cu Treshold
+-------------------------------------------------------------------
+        z = activation(y)
+        // n - rata de invatare
+        // x - ca sa luam in considerare si datele de intrare
+        // t-z - eroarea de la outputul asteptat
+        w = w + (t - z) * x * n 
+        b = b + (t - z) * n 
+----------------------------------- Necesara doar la antrenare! ---
+        if t != z :
+            allClassified = False
+    nrIteratii -= 1
+
+Sa facem online training, shuffle pe set si il antrenezi dinnou.
+
