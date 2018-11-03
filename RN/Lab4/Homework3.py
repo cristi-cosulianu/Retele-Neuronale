@@ -1,4 +1,8 @@
 import _pickle, gzip, numpy as np
+learningRate = 0.3
+
+firstLayerSize = 30
+lastLayerSize = 10
 
 def getTrainSet():
     f = gzip.open('mnist.pkl.gz', 'rb')
@@ -16,65 +20,122 @@ def getTestSet():
     f.close()
     return test_set
 
-def sigmoidActivation(z):
-    return 1 / (1 + np.exp(-z))
+def targetCheck(t, digit):
+    if t == digit:
+        return 1
+    else:
+        return 0
+
+def sigmoidActivation(zList):
+    normalizer = zList.max()
+    normalizedList = np.array(zList - normalizer)
+    return 1 / (1 + np.exp(normalizedList))
 
 def softMaxActivation(zList):
-    #expList = np.array(list(map(lambda z : np.exp(z), zList)))
-    #expList = np.array([lambda z : np.exp(z) for z in zList])
-    expList = np.zeros(len(zList))
-    for index in range(len(zList)):
-        expList[index] = np.exp(zList[index])
+    normalizer = zList.max()
+    expList = np.exp(zList - normalizer)
     sumExpList = expList.sum()
-    return np.array(list(map(lambda expZ : expZ / sumExpList, expList)))
+    return expList / sumExpList
 
 def trainNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases):
+    firstLayer[0] = np.zeros(784)
     nrIterations = 1
     while (nrIterations > 0):
         trainSet = getTrainSet()
         # Iterate trought all inputs.
         for iterator in range(50000):
+            print(iterator)
             input = trainSet[0][iterator]
             target = trainSet[1][iterator]
-            firstOutput = np.zeros(100)
-            secondOutput = np.zeros(10)
+            firstOutput = np.zeros(firstLayerSize)
+            secondOutput = np.zeros(lastLayerSize)
 
             # Compute output for all neurons from FIRST layer.
-            for index in range(100):
+            for index in range(firstLayerSize):
                 z = np.dot(input, firstLayer[index]) + firstBiases[index]
-                firstOutput[index] = sigmoidActivation(z)
+                firstOutput[index] = z
+            firstOutput = sigmoidActivation(firstOutput)
 
-            # Compute partial output for all neurons from LAST layer.
-            secondPartialOutput = np.zeros(10)
-            for index in range(10):
-                secondPartialOutput[index] = np.dot(firstOutput, lastLayer[index] + lastBiases[index])
+
+
+            # Compute output for all neurons from LAST layer.
+            secondOutput = np.zeros(lastLayerSize)
+            for index in range(lastLayerSize):
+                secondOutput[index] = softMaxActivation(np.dot(firstOutput, lastLayer[index]) + lastBiases[index])
             
-            # Activate partial output from LAST layer.
-            secondOutput = softMaxActivation(secondPartialOutput)
 
             # Calculate error for all neurons form LAST layer.
-            lastError =  np.array(list(map(lambda z : z - target, secondOutput)))
+            lastError = np.zeros(lastLayerSize)
+            for index in range(lastLayerSize):
+                #lastError[index] = secondOutput[index] * (1 - secondOutput[index]) * (secondOutput[index] - targetCheck(target, index))
+                lastError[index] = secondOutput[index] - targetCheck(target, index)
 
             # Propagate the error to FIRST layer.
-            firstError = np.zeros(100)
-            for index in range(100):
+            firstError = np.zeros(firstLayerSize)
+            for index in range(firstLayerSize):
                 # Multiply errors from LAST layer with weigts for this neuron.
                 errorWeightsList = lastError * firstLayer[:,[index]]
                 # Calculate error for this neuron.
                 firstError[index] = firstOutput[index] * (1 - firstOutput[index]) * errorWeightsList.sum()
 
-            # Calculate cost function for every weight and adjust every weight between FIRST and LAST layer.
-            # Calculate cost function for every weight and adjust every weight between INPUT and FIRST layer.
+            # Calculate cost function for every weight between FIRST and LAST layer.
+            for index in range(lastLayerSize):
+                biasCostFunction = lastError[index] * learningRate
+                # Adjust every biases between FIRST and LAST layer.
+                lastBiases[index] = lastBiases[index] - biasCostFunction
+
+                weightsCostFunction = firstOutput * biasCostFunction
+                # Adjust every weight between FIRST and LAST layer.
+                lastLayer[index] = lastLayer[index] - weightsCostFunction
+            
+            # Calculate cost function for every weight between INPUT and FIRST layer.
+            for index in range(firstLayerSize):
+                biasCostFunction = firstError[index] * learningRate
+                # Adjust every biases between INPUT and FIRST layer.
+                firstBiases[index] = firstBiases[index] - biasCostFunction
+
+                weightsCostFunction = input * biasCostFunction 
+                # Adjust every weight between INPUT and FIRST layer.
+                firstLayer[index] = firstLayer[index] - weightsCostFunction
 
         nrIterations -= 1
+    return firstLayer, firstBiases, lastLayer, lastBiases
+
+def testNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases):
+    testSet = getTestSet()
+    goodTests = 0
+    apparitionList = np.zeros(10)
+    # Iterate trought all inputs.
+    for iterator in range(10000):
+        input = testSet[0][iterator]
+        target = testSet[1][iterator]
+        firstOutput = np.zeros(firstLayerSize)
+        secondOutput = np.zeros(lastLayerSize)
+
+        # Compute output for all neurons from FIRST layer.
+        for index in range(firstLayerSize):
+            firstOutput[index] = np.dot(input, firstLayer[index]) + firstBiases[index]
+
+        # Compute output for all neurons from LAST layer.
+        secondOutput = np.zeros(lastLayerSize)
+        for index in range(lastLayerSize):
+            secondOutput[index] = np.dot(firstOutput, lastLayer[index]) + lastBiases[index]
+
+        apparitionList[secondOutput.argmax()] += 1
+        if (secondOutput.argmax() == target):
+            goodTests = goodTests + 1
+
+    print(apparitionList)
+    print("The result is: {}".format(goodTests / 100))
 
 def main():
-    firstLayer = np.random.uniform(0, 0.1, (100, 784))
-    firstBiases = np.random.uniform(0, 1, 100)
-    lastLayer = np.random.uniform(0, 0.1, (10, 100))
-    lastBiases = np.random.uniform(0, 1, 10)
+    firstLayer = np.random.uniform(0, 0.1, (firstLayerSize, 784))
+    firstBiases = np.random.uniform(0, 1, firstLayerSize)
+    lastLayer = np.random.uniform(0, 0.1, (lastLayerSize, firstLayerSize))
+    lastBiases = np.random.uniform(0, 1, lastLayerSize)
 
-    trainNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases)
+    firstLayer, firstBiases, lastLayer, lastBiases = trainNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases)
+    testNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases)
 
     print("It's working!")
 
