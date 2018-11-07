@@ -1,7 +1,8 @@
+import numpy as np
 import _pickle, gzip, numpy as np
-learningRate = 1
-firstLayerSize = 100
-lastLayerSize = 10
+
+globalNrIterations = 1
+learningRate = 0.05
 
 def getTrainSet():
     f = gzip.open('mnist.pkl.gz', 'rb')
@@ -20,93 +21,64 @@ def getTestSet():
     return test_set
 
 def sigmoid(x):
-    b = x.max()
-    y = np.exp(x - b)
-    return y / (1 + y)
+    y = np.exp(-x)
+    return np.divide(1.0, 1 + y)
 
 def softmax(x):
     y = np.exp(x)
     return y / y.sum()
 
-def trainNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases):
-    nrIterations = 1
-    while (nrIterations > 0):
-        trainSet = getTrainSet()
-        # Iterate trought all inputs.
-        for iterator in range(50000):
-            print(iterator)
-            input = trainSet[0][iterator]
-            target = trainSet[1][iterator]
-            targetVector = np.zeros(10)
-            targetVector[target] = 1
+def trainNeuralNetwork():
+    train_set = getTrainSet()
+    input = np.array(train_set[0])
+    target = np.array(train_set[1])
+    firstLayer = np.random.normal(0, np.power(np.sqrt(784), (-1)), (100, 784))
+    lastLayer = np.random.normal(0, np.power(np.sqrt(100), (-1)), (10, 100))
 
-            firstOutput = np.zeros(firstLayerSize)
-            secondOutput = np.zeros(lastLayerSize)
-            firstError = np.zeros(firstLayerSize)
-            lastError = np.zeros(lastLayerSize)
+    firstBiases = np.random.normal(0, 1, 100)
+    lastBiases = np.random.normal(0, 1, 10)
 
-            # Feed forward.
-            firstOutput = (input * firstLayer).sum(axis = 1) + firstBiases
-            firstOutput = sigmoid(firstOutput)
+    nrIterations = globalNrIterations
 
-            secondOutput = (firstOutput * lastLayer).sum(axis = 1) + lastBiases
-            secondOutput = softmax(secondOutput)
+    while(nrIterations > 0):
+        for index in range(len(input)):
+            print(index)
+            firstOutput = sigmoid(firstLayer.dot(input[index]) + firstBiases)
+            lastOutput = softmax(lastLayer.dot(firstOutput) + lastBiases)
 
-            # Propagate error.
-            lastError = secondOutput - targetVector
-            lastError = lastError.reshape((lastLayerSize,1))
-            firstError = firstOutput * (1 - firstOutput) * (lastError * lastLayer).sum(axis = 0)
-            firstError = firstError.reshape((firstLayerSize,1))
+            t = np.zeros(10)
+            t[target[index]] = 1
+            lastError = lastOutput - t
+            lastError = lastError.reshape((10, 1))
 
-            # Adjust weights and biases.
-            lastLayer = lastLayer - learningRate * lastError * firstOutput
-            lastBiases = lastBiases - np.reshape(learningRate * lastError, (lastLayerSize))
+            firstError = (firstOutput * (1 - firstOutput)) * (lastLayer * lastError).sum(axis=0)
+            firstError = firstError.reshape((100, 1))
 
-            firstLayer = firstLayer - learningRate * firstError * input
-            firstBiases = firstBiases - np.reshape(learningRate * firstError, (firstLayerSize))            
-
-
+            lastLayer += -learningRate * lastError * firstOutput
+            firstLayer += -learningRate * firstError * input[index]
+            lastBiases += -learningRate * lastError.flatten()
+            firstBiases += -learningRate * firstError.flatten()
         nrIterations -= 1
-    return firstLayer, firstBiases, lastLayer, lastBiases
+    return firstLayer, lastLayer, firstBiases, lastBiases
 
-def testNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases):
-    testSet = getTestSet()
-    goodTests = 0
-    apparitionList = np.zeros(10)
-    # Iterate trought all inputs.
-    for iterator in range(10000):
-        print(iterator)
 
-        input = testSet[0][iterator]
-        target = testSet[1][iterator]
-
-        firstOutput = np.zeros(firstLayerSize)
-        secondOutput = np.zeros(lastLayerSize)
-
-        # Feed forward.
-        firstOutput = (input * firstLayer).sum(axis = 1) + firstBiases
-        firstOutput = sigmoid(firstOutput)
-
-        secondOutput = (firstOutput * lastLayer).sum(axis = 1) + lastBiases
-        secondOutput = softmax(secondOutput)
-
-        apparitionList[secondOutput.argmax()] += 1
-        if (secondOutput.argmax() == target):
-            goodTests = goodTests + 1
-
-    print(apparitionList)
-    print("The result is: {}".format(goodTests/100))
+def testNeuralNetwork(firstLayer, lastLayer, firstBiases, lastBiases):
+    test_set = getTestSet()
+    success = 0
+    failure = 0
+    inputValues = np.array(test_set[0])
+    target = np.array(test_set[1])
+    for index in range(len(inputValues)):
+        print(index)
+        firstOutput = sigmoid(firstLayer.dot(inputValues[index]) + firstBiases)
+        lastOutput = softmax(lastLayer.dot(firstOutput)+lastBiases)
+        if np.argmax(lastOutput) == target[index]:
+            success += 1
+    print("Success: {}".format(success))
 
 def main():
     
-    firstLayer = np.random.normal(0, 1 / np.sqrt(firstLayerSize), (firstLayerSize, 784))
-    firstBiases = np.random.normal(0 , 1, firstLayerSize)
-    lastLayer = np.random.normal(0, 1 / np.sqrt(lastLayerSize), (lastLayerSize, firstLayerSize))
-    lastBiases = np.random.normal(0 , 1, lastLayerSize)
-
-    firstLayer, firstBiases, lastLayer, lastBiases = trainNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases)
+    firstLayer, firstBiases, lastLayer, lastBiases = trainNeuralNetwork()
     testNeuralNetwork(firstLayer, firstBiases, lastLayer, lastBiases)
-
-    print("It's working!")
 
 main()
