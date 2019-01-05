@@ -1,0 +1,53 @@
+ADSK_CLM_WPAD_PROXY_CHECK		FALSE
+ALLUSERSPROFILE		C:\ProgramData
+APPDATA		C:\Users\crist\AppData\Roaming
+COMMONPROGRAMFILES		C:\Program Files\Common Files
+COMMONPROGRAMFILES(X86)		C:\Program Files (x86)\Common Files
+COMMONPROGRAMW6432		C:\Program Files\Common Files
+COMPUTERNAME		MYWORKSTATION
+COMSPEC		C:\WINDOWS\system32\cmd.exe
+CONFIGSETROOT		C:\WINDOWS\ConfigSetRoot
+DRIVERDATA		C:\Windows\System32\Drivers\DriverData
+EASYPLUSSDK		"C:\Program Files (x86)\Common Files\lenovo\easyplussdk\bin"
+GTK_BASEPATH		C:\Program Files (x86)\GtkSharp\2.12\
+GYP_MSVS_VERSION		2015
+HOMEDRIVE		C:
+HOMEPATH		\Users\crist
+JAVA_HOME		C:\Program Files\Java\jdk1.8.0_171
+LOCALAPPDATA		C:\Users\crist\AppData\Local
+LOGONSERVER		\\MYWORKSTATION
+MSMPI_BIN		C:\Program Files\Microsoft MPI\Bin\
+NUMBER_OF_PROCESSORS		8
+ONEDRIVE		C:\Users\crist\OneDrive
+OS		Windows_NT
+PATH		C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\oraclexe\app\oracle\product\11.2.0\server\bin;C:\Program Files\Microsoft MPI\Bin\;E:\Programe\Oracle\app\oracle\product\11.2.0\server\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\System32;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\dotnet\;C:\Program Files (x86)\nodejs\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Yarn\bin\;C:\Python27;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\WINDOWS\System32\OpenSSH\;E:\Programe\Microsoft VS Code\bin;C:\Python27\Scripts;C:\Program Files (x86)\Autodesk\Backburner\;C:\Program Files (x86)\IncrediBuild;C:\Program Files\Git\cmd;C:\Users\crist\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\crist\AppData\Local\Programs\Python\Python37\;C:\Program Files\Java\jdk1.8.0_121\bin;C:\Users\crist\AppData\Local\Microsoft\WindowsApps;E:\Programe\Microsoft VS Code\bin;C:\Users\crist\AppData\Roaming\npm;C:\Users\crist\AppData\Local\Yarn\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\crist\AppData\Local\GitHubDesktop\bin
+PATHEXT		.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+PROCESSOR_ARCHITECTURE		AMD64
+PROCESSOR_IDENTIFIER		Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+PROCESSOR_LEVEL		6
+PROCESSOR_REVISION		5e03
+PROGRAMDATA		C:\ProgramData
+PROGRAMFILES		C:\Program Files
+PROGRAMFILES(X86)		C:\Program Files (x86)
+PROGRAMW6432		C:\Program Files
+PROMPT		$P$G
+PSMODULEPATH		C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+PUBLIC		C:\Users\Public
+PYTHON_HOME		C:\Python27
+SESSIONNAME		Console
+SYSTEMDRIVE		C:
+SYSTEMROOT		C:\WINDOWS
+TEMP		C:\Users\crist\AppData\Local\Temp
+TMP		C:\Users\crist\AppData\Local\Temp
+USERDOMAIN		MYWORKSTATION
+USERDOMAIN_ROAMINGPROFILE		MYWORKSTATION
+USERNAME		crist
+USERPROFILE		C:\Users\crist
+VS110COMNTOOLS		C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\
+VS120COMNTOOLS		C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\
+VS140COMNTOOLS		E:\Programe\Visual Studio Enterprise\Common7\Tools\
+VSCODE_CWD		E:\Programe\Microsoft VS Code
+WINDIR		C:\WINDOWS
+TERM_PROGRAM		vscode
+TERM_PROGRAM_VERSION		1.30.1
+LANG		en_US.UTF-8

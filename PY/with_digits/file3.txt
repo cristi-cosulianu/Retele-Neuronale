@@ -1,0 +1,13 @@
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\documentation_by_Eugen.txt
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\input.txt
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\lab1.py
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\lab2.py
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\lab3.py
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\lab4.py
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\lab5.py
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\regex.py
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\results.txt
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\sample.txt
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\folder
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\folder\file1.txt
+C:\\Users\\crist\\OneDrive\\Documents\\GitHub\\Retele-Neuronale\\PY\folder\file2.txt

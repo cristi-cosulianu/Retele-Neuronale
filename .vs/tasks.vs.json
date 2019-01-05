@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskName": "task-lab3",
+      "appliesTo": "PY/lab3.py",
+      "type": "launch"
+    }
+  ]
+}

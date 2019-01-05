@@ -1,0 +1,237 @@
+---------------------------> Operators <---------------------------
+
+x ** y - rise x to the y power
+x / y - 3.33 float
+x // y - 3.0 float
+x <> y - true if x != y
+not y - negate xy
+x is y - equal to x == y
+x is not y - equal to x !=y
+x and y - equal to x && y
+x or y - equal to x || y
+x in y - true if x is in y
+
+break - get out of the loop
+continue - get to the next iteration
+lambda list_of_parameters : return_value
+
+
+---------------------------> Strings <---------------------------
+
+For s = Python
+s[1] - "P"
+s[-1] - "n"
+s[:2] - "Py"
+s[4:] - "on"
+s[2:4] - "th"
+s = "python" + "exam"
+s = "fail" * 3
+
+s.replace(what_to_replace, with_what_to_replace, [how_many_to_replace])
+s.index(what_to_find) - index of what_to_find
+s.rindex(what_to_find) - index of last what_to_find
+s.find(what_to_find, start, end) - index of what_to_find
+s.count(what_to_find, start, end) - number of what_to_find in s
+s.split(separators_list, max_split) - split s where separator found
+s.splitlines()
+s.upper()
+s.lower()
+s.islower()
+s.isupper()
+s.isdigit()
+s.strip([chars]) - remove the chars from s
+
+
+---------------------------> Lists <---------------------------
+
+l.append(x) - add an element to list
+l.extend(x) - add a list to list
+l.insert(position, x) - insert x on position in list
+l.remove(x) - remove from list
+l.pop(index) - extract element from index 
+l.clear() - makes the list empty
+l.copy() - return a copy of the list
+l.index(x) - return index of x in l
+l.count(x) - return number of x's apparitions in l
+l.reverse() - reverse the list
+l.sort(key=,reverse=) - sort the list using key expresion (alterate the elements of list before sort)
+
+
+---------------------------> Sets <---------------------------
+
+Unique elements.
+Elements can't be accessed.
+No addition opperand between sets.
+s.add(x) - add element x to set
+s.remove(x) - remove's x from set but throw error if x is not in set
+s.discard(x) - as remove but don't throw error
+s.update(x) - to add a new set of elements
+s.union(x) - return a new set with s U x
+s.intersection(x) - return a new set with intersection between s and x
+s.difference(x) - return a new set with the difference between s and x
+s.symmetric_difference(x) - return symm diff between s and x
+s.isdisjoint(x) - return true if they don't have common elements
+s.issubset(x) - when s is an subset of x
+s.issuperset(x) - when x is subset of x
+s.pop()
+
+
+---------------------------> Dictionaries <---------------------------
+
+Has key, value pairs as elements.
+d.setdefault(key, value) - add new key value pair in dict
+d.update(dict) - add new key value pairs or update the old ones 
+d.clear() - make d empty
+d.copy() - return a copy of d that can be modified
+d.fromkeys(list_of_keys, default_value)
+d.get(key) - return the value for key in d
+d.pop(key) - return the value for key and removes that pair from d
+d.keys() - return the list of keys from d
+d.values() - return the list of values from d
+d.items() - return a list of tuples containing the key value pairs from d
+del d["A"] - remove the pair with "A" key
+
+
+---------------------------> Functions <---------------------------
+
+function(*parameters) - arguments treated as a list (variable size)
+function(**parameters) - arguments treated as a dicitonary
+type(x) - return the type of x
+list(x) - create a new list with x's content
+tuple(x) - create a new tuple with x's content
+set(x) - create a new set with x's content
+chr(x) - x is unicode code value and returns the coresponding character 
+ord(x) - returns the unicode of c (char)
+hex(x) - conversts x number in lowercase hex representation
+map(function, iterable) - return an iterable (has to be casted to a type)
+filter(function, iterable) - the function has to return boolean
+                           - selects the elements that return true in function
+max(x, key=) - return the biggest element from x (key=lambda)
+min(x, key=) - return the smallest element from x (key=lambda)
+sum(x, startValue) - sum all the elements from x
+del(l[index]) - remove from list
+sorted(x, key=, reverse=) - sort x by the comparation function key
+all(x) - return true if all are true
+any(x) - return true if at least one is true
+zip(x,y) - return a list with tuples like (x1,y1) ... (xn,yn)
+zip(*x) - to unzip
+
+---------------------------> Exceptions <---------------------------
+
+try -  for the code that is suspected to throw Exceptions
+except Exception as variable_name - treat the Exceptions
+else - will run if there is no exception in try block
+finnaly - run after the try block it's completed
+
+raise Exception(args) - raise an custom exception or predefined ones
+assert condition, message
+pass - in except block if you don't want to process an exception
+
+
+---------------------------> Modules <---------------------------
+
+import module1, module2, ... 
+import module1 as m1 - to give alias to module
+from module1 import object1, object2 - for classes
+from module1 import * - same as import module1
+dir(module) - return a list of functions/objects from that module
+
+module1.__file__ - full path of the file that corresponds to the module
+module1.__name__ - the name of the module
+module1.__package__ - the name of the package
+
+__name__ - from the script that is executed is __main__
+         - from the imported files is the name of the module
+
+
+---------------------------> Sys Module
+
+sys.argv - list of parameters sent to the python script
+sys.platform - the operating sistem
+sys.stdin/.stdout/.stderr - handlers for default I/O operations
+sys.path - list of string from where module will be loaded
+sys.modules - dictionary with loaded modules
+sys.version_info - python version
+
+---------------------------> Os Module
+
+os.listdir(path) - list of child files and folders of the path destination
+os.chdir(path) - change current directory
+os.mkdir(path) - create directory
+os.rmdir(path) - remove directory
+os.remove(path) - remove file
+os.rename(path) - rename/move file
+
+os.path.join(path1, path2) - join paths in one
+os.path.dirname(path) - return the parent directory name
+os.path.basename(path) - return the name of the file/directory
+os.path.splitext(path) - split file name from extension
+os.path.exists(path) - true if the path exists
+os.path.isdir(path) - true if the path destination is directory
+os.path.isfile(path) - true if the path destination is file
+os.path.realpath(__file__) - current script path
+os.access(path, os.R_OK) - if can read
+os.access(path, os.W_OK) - if can write
+os.stat(path).st_size - file size
+
+os.walk(path) - recursively walk through path and return (root, dirs ,files) 
+
+os.system(command) - to execute system commands
+
+getpass.getuser() - to get user name
+multiprocessing.cpu_count() - to get number of cores
+
+---------------------------> I/O
+
+input(message) - return what was entered until enter key was pressed
+print(arg1, arg2, arg3, ... , sep = separator, end = '\n', file=, flush=)
+open(path, mode=, buffering=, encoding=, errors=, newline=, closefd=, opener=)
+
+mode:
+    - "r" - read
+    - "rt" - to read the whole file and return a string
+    - "rb" - to read the whole file and return a binary string
+    - "w" - write
+    - "x" - exclusive creation (fail if file is there)
+    - "a" - append
+    - "b" - binary 
+    - "t" - text mode
+    - "+" - update (read + write)
+
+error - how to be processed conversion errors for the specified encoding
+newline - what tot be considered as newline (if is none is the system default)
+
+f.close - close file
+f.tell - return the current in file position
+f.seek - sets the current file position to a new position
+f.read - read a number of bytes from file
+f.write - write a number of bytes into a file
+f.readline - reads a line from a file
+f.writelines 
+f.name - return the file name
+f.mode - return the mode in which the file was opened
+f.closed - true if the file was closed
+
+
+---------------------------> Packages <---------------------------
+
+Packages must be grouped in folders and need to have an __init__.py file
+where the __all__ variable has to initialized with all the modules from
+that package (ex: __all__ = ["module1", "module2"])
+
+importlib - module to dynamically import modules
+importlib.import_module("module1")
+
+---------------------------> Regular Expressions <---------------------------
+
+. - all characters except \n
+^ - matches at the start of the string
+$ - matches at the end of the string
+* - repetition >= 0
++ - repetition >= 1
+? - 0 or 1 occurrence
+{x} - matches x times
+{x,y} - matches between x and y times
+
+
+

@@ -1,6 +1,12 @@
-import random
+import copy, numpy as np
 
 bigValue = 99999999999
+
+class Node:
+    def __init__(self, gameBoard, cost, states):
+        self.gameBoard = gameBoard
+        self.cost = cost
+        self.states = states
 
 class Stack:
     def __init__(self):
@@ -46,11 +52,10 @@ def copyState(state):
     return newState
 
 
-def initGameBoard(numOfDisks, rodPosition):
-    s1 = Stack([])
-    s2 = Stack([])
-    s3 = Stack([])
-    gameBoard = [s1,s2,s3]
+def initGameBoard(numOfDisks, numOfRods, rodPosition):
+    gameBoard = []
+    for i in range(numOfRods):
+        gameBoard.append(Stack([]))
     for i in range(numOfDisks):
         gameBoard[rodPosition - 1].push(numOfDisks - i)
     return gameBoard
@@ -69,31 +74,24 @@ def statesAreEqual(firstState, secondState):
             return False
     return True
 
-def notInFinalState(gameBoard, numOfDisks):
-    finalGameBoard1 = initGameBoard(numOfDisks, 2)
-    finalGameBoard2 = initGameBoard(numOfDisks, 3)
-    if (statesAreEqual(gameBoard,finalGameBoard1) or statesAreEqual(gameBoard,finalGameBoard2)):
-        return False
-    else:
-        return True
+def notInFinalState(gameBoard, numOfRods, numOfDisks):
+    for i in range(2, numOfRods):
+        finalGameBoard = initGameBoard(numOfDisks,numOfRods, i)
+        if (statesAreEqual(gameBoard, finalGameBoard)):
+            return False
+    return True
 
-def findPossibleMoves(gameBoard, badMoves):
+def findPossibleMoves(gameBoard):
     possibleMoves = []
     top = []
-    top.append(gameBoard[0].top())
-    top.append(gameBoard[1].top())
-    top.append(gameBoard[2].top())
+    for stack in gameBoard:
+        top.append(stack.top())
     for fromTower in range(len(top)):
         for toTower in range(len(top)):
             if (fromTower != toTower):
                 if fromTower != bigValue and top[fromTower] < top[toTower]:
                     possibleMoves.append([fromTower,toTower])
-    if len(badMoves) > 0:
-        possibleMoves = [move for move in possibleMoves if badMoves.count(move) < 1]
     return possibleMoves
-
-def choseMoveRandomly(possibleMoves):
-    return random.choice(possibleMoves)
 
 def applyMove(gameBoard, chosenMove):
     boardCopy = copyState(gameBoard)
@@ -103,7 +101,6 @@ def applyMove(gameBoard, chosenMove):
     return boardCopy
 
 def isCancelingLastMove(newGameBoard, listOfStates):
-    #return (not statesAreEqual(newGameBoard, listOfStates[-1]))
     if len(listOfStates) > 2 and statesAreEqual(newGameBoard, listOfStates[-2]):
         return True
     return False
@@ -114,38 +111,41 @@ def isRepeating(newGameBoard, listOfStates):
             return True
     return False
 
-#def isRepeating(newGameBoard, listOfStates):
-#    if statesAreEqual(listOfStates[-1], newGameBoard):
-#        return True
-#    return False
+def towerOfHanoi(gameBoard, numOfDisks, numOfRods):
+    # [0] -> Current game state.
+    # [1] -> The cost to reach the current game state.
+    # [2] -> The states to reach the current game state.  
+    currentNode = Node(copyState(gameBoard), 0, [])
 
-def towerOfHanoi(gameBoard, numOfDisks):
-    listOfStates = []
-    listOfStates.append(copyState(gameBoard))
-    badMoves = []
-    while(notInFinalState(gameBoard, numOfDisks)):
-        print(gameBoard)
-        possibleMoves = findPossibleMoves(gameBoard, badMoves)
-        if len(possibleMoves) > 0 and len(listOfStates) < (2**numOfDisks - 1) * 1.3:
-            chosenMove = choseMoveRandomly(possibleMoves)
-            newGameBoard = applyMove(gameBoard, chosenMove)
-            if not isRepeating(newGameBoard, listOfStates) and not isCancelingLastMove(newGameBoard, listOfStates):
-                badMoves = []
-                gameBoard = newGameBoard
-                listOfStates.append(copyState(newGameBoard))
-            else:
-                badMoves.append(chosenMove.copy())
-        else:
-            badMoves = []
-            gameBoard = resetGameBoard(listOfStates)
-            listOfStates = resetListOfStates(copyState(gameBoard))
-    return listOfStates
+    # A tail of nodes.
+    tail = []
+    tail.append(currentNode)
+    while(notInFinalState(currentNode.gameBoard, numOfRods, numOfDisks)):
+        # print(currentNode.gameBoard)
+        possibleMoves = findPossibleMoves(currentNode.gameBoard)
+        for move in possibleMoves:
+            newGameBoard = applyMove(currentNode.gameBoard, move)
+            if not isRepeating(newGameBoard, currentNode.states) and len(currentNode.states) < (2**numOfDisks - 1) * 1.3:
+                states = copy.deepcopy(currentNode.states)
+                states.append(newGameBoard)
+                newNode = Node(newGameBoard, currentNode.cost + 1, states)
+                tail.append(newNode)
+
+        # Find node with the minimum cost.
+        argmin = np.argmin([state.cost for state in tail])
+        # Update current node.
+        currentNode = tail[argmin]
+        # Remove node from tail.
+        tail.pop(argmin)
+
+    return currentNode.states
 
 
 def main():
-    numOfDisks = 5
-    gameBoard = initGameBoard(numOfDisks, 1)
-    listOfStates = towerOfHanoi(gameBoard, numOfDisks)
+    numOfDisks = int(input("Insert number of disks: "))
+    numOfRods = int(input("Insert number of rods: "))
+    gameBoard = initGameBoard(numOfDisks, numOfRods, 1)
+    listOfStates = towerOfHanoi(gameBoard, numOfDisks, numOfRods)
     print("\n\n")
     print("I FOUND AN SOLUTION!")
     print("\n\n")
