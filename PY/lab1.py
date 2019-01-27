@@ -36,7 +36,6 @@ def count_words(string):
 	separators = re.compile(" |,|;|:|\?|\.")
 	words = re.split(separators, string)
 	for index in range(len(words)):
-		print(words[index])
 		if len(words[index]) is 0:
 			words.pop(index)
 	return len(words)
@@ -57,8 +56,6 @@ def count_sub_string(sub_string, string):
 def check_special_chars(string):
 	special_chars = "\r\t\n\a\b\f\v"
 	for special_char in special_chars:
-		print(special_char)
-		print(string.count(special_char))
 		if string.count(special_char) > 0:
 			return True
 	return False
@@ -69,7 +66,6 @@ def check_special_chars(string):
 
 def replace_camel_case(string):
 	for i in range(len(string)):
-		print(string[i])
 		if string[i].isupper():
 			if i is 0:
 				string = string[i].lower() + string[i+1:]

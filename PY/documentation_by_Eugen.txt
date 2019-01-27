@@ -40,6 +40,7 @@ s.islower()
 s.isupper()
 s.isdigit()
 s.strip([chars]) - remove the chars from s
+s.encode(encoding=)
 
 
 ---------------------------> Lists <---------------------------
@@ -181,7 +182,149 @@ os.system(command) - to execute system commands
 getpass.getuser() - to get user name
 multiprocessing.cpu_count() - to get number of cores
 
----------------------------> I/O
+---------------------------> Time Module
+
+import time
+time.time() - time in seconds
+time.ctime() - 'Mon Jan  7 18:32:54 2019'
+time.localtime(seconds) - return an time_object
+time.gmtime(seconds)
+time.sleep(seconds) - 
+
+time_object.tm_year - current year
+time_object.tm_mon - current month
+time_object.tm_mday - current month day
+time_object.tm_hour - current hour
+time_object.tm_min - current min
+time_object.tm_sec- current sec
+time_object.tm_wday - current week day
+time_object.tm_hour - current hour
+time_object.tm_yday - current year day
+
+time.asctime(time_object) - convert time_obj to readable representation (string format)
+time.mktime(time_object) - to transform time_obj into number of seconds
+
+time.strftime(time_format, time_object) - to format the time_obj
+                                        - without time_obj is applied to current time
+%H - 24 hour format
+%I - 12 hour format
+%Y - year (4 digits)
+%m - month decimal
+%B - month name
+%M - minute
+%S - seconds
+%A - day of week (name)
+%d - day of month (decimal)
+%p - AM or PM
+
+
+---------------------------> Hashlib Module
+
+import hashlib - to compute cryptographic functions like (MD5, SHA-1, SHA-224, SHA-384, SHA-512)
+
+h_obj = hashlib.md5() | .sha256() | etc
+h_obj.update() - to update the hash value`
+h_obj.digest() - compute final hash
+h_obj.hexdigest() - hex compute final hash
+
+
+---------------------------> JSON Module
+
+import json - for data serialization JSON
+
+json.dumps(d) - serialization of the dictionary d
+json.loads(data) - de-serialization of the data
+
+
+---------------------------> Pickle Module
+
+import pickle - for data serialization using binary format
+
+pickle.dumps()
+pickle.loads()
+
+
+---------------------------> Marshal Module
+
+import marshal - for data serialization using binary format
+
+marshal.dumps()
+marshal.loads()
+
+
+---------------------------> Random Module
+
+import random
+random.random() - to generate float number between 0 - 1
+random.randint(min, max) - generate random int between min - max
+random.choice(list) - selects a random elem from list
+random.shuffle(list) - shuffles the list
+random.sample(list, count) - create new list with count elements from list
+
+---------------------------> ZipFile Module
+
+import zipfile
+z = zipfile.ZipFile(file_name) - open zipfile
+z = zipfile.ZipFile(file_name, mode, compression) - compression can be ZIP_DEFLATED, ZIP_STORED, ZIP_BZIP2, ZIP_LZMA
+z.extract(filename, destination_folder) - to extract file in destination_folder, the file name is the file path in zip file
+z.extractall(destination_folder)
+z.open(filename, mode, pwd) - to open a specific file from zipfile
+                            - returns a file like object
+z.write(filename, in_zip_name) - write a file in zip with filename as in_zip_name if in_zip_name it's not mentioned
+z.writestr(in_zip_name, str) - create a file in zip with in_zip_name and with str as content
+
+z.is_zipfile(filename)
+
+z.infolist() - return list of files and directories from zipfile
+    for i in z:
+    i.filename - file path
+    i.file_size - file size
+    i.compress_size - file size in zip
+
+---------------------------> Socket Module
+
+import socket
+s.gethostname() - current system IP
+s.settimeout(seconds)
+s.connect_ex((adress, port)) - return error code if connection not possible, 0 if it is possible
+
+-----> SERVER
+socket.socket(socket.AF_INET, socket.SOCK_STREAM) - to create socket
+s.bind(adress, port) - adress string, port int
+s.listen(max_nr_of_queued_conn) - how many client's to listen
+s.accept() - return the pair (connection, adress)
+connection.recv(nr_of_bytes).decode(coding_format) - receive data and decode it in readable format
+connection.close()
+
+-----> CLIENT
+socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((adress, port))
+s.send(binary_message)
+s.close()
+
+
+---------------------------> Urllib Module
+
+import urllib
+from urllib import request
+
+urllib.request.urlopen("link").read()
+
+---------------------------> Ftplib Module
+
+from ftplib import FTP
+client = FTP.connect(host, port)
+client.login(user, pass) - default without user and pass as anonymus 
+client.retrlines(command, call_back) - send command to FTP server and retrieves the results. The result is sent line by line to a callback function.
+client.storbinary(command, call_back) - save file in a binary mode on FTP server.
+client.retrbinary() - retrieves a binary file from FTP server.
+client.rename() - rename file/folder
+client.delete() - remove files
+client.rmd() - remove directories
+
+
+
+---------------------------> I/O <---------------------------
 
 input(message) - return what was entered until enter key was pressed
 print(arg1, arg2, arg3, ... , sep = separator, end = '\n', file=, flush=)
@@ -232,6 +375,130 @@ $ - matches at the end of the string
 ? - 0 or 1 occurrence
 {x} - matches x times
 {x,y} - matches between x and y times
+[xyz] - one option from [] (x or y, or z)
+| - or condition
+\d - digits
+\D - all except digits
+\s - space, tab, new line
+\S - all except \s
+\w - words with letters a-z, A-Z and digits 0-9 with _
+\ - escape character
+[^x] - one character except x
+() - group of characters
+[...-...] - interval for a group of characters 
+
+---------------------------> re Module
+
+re.compile("regex") - to compile regex expression
+re.match(regex_exp, string) - match regex_expression in string
+re.serch(regex_exp, string) - return a match object
+re.findall(regex_exp, string) - return a list with all substring that match the
+                              - if (...) are used in regex_exp, return list of tuples
+re.split(regex_exp, string) - return list of substring that did not matched regex_exp
+                            - if (...) are used, the split is made after each group from regex_exp that is matched
+re.sub(regex_exp, replace_string, string) - replace matched substrings from string by regex_exp with replace_string
+
+(...) - it's named a group
+(?P<name>...) - can be accessed if the group it's matched as result.group(name)
+              - if you have more of these named groups you can access them as follows result.groupdict() with key the name of the group and the value is the actual match.
+(?i) - apply the ignore case
+(?s) - dot will match anything
+(?=x) - match the previous expression only if the next one is x
+(?!) - match only of the next ixpression does not match
+
+match_object - group(index) - the substring that was matched
+
+---------------------------> Classes <---------------------------
+
+class <name>
+    
+    <data_member>
+    mutable objects defined in class definition are static
+    mutable objects defined in __init__ function are instance members
+    data_members can be added at runtime:
+    {
+        class Point:
+            p = Point()
+            p.x = 10
+    }
+    <method>
+    def __init__(self): - initialization method
+    def method(self): - instance method
+    def method(): - class method (static)
+
+class <name> (Base1, Base2, ...) - where BaseN is a class from where to inherit
+    def __init__(self):
+        Base1.__init__(self) - the base init function it's not called automatic
+        super.__init__(self) - another option
+
+isistance(obj, Class) - obj is instance of class
+issubclass(SubClass, Class) - SubClass is subclass of class
+
+__init__ - initialization
+__str__ - when obj needs to be converted into string
 
 
+Inheriting it's overwriting all base class members and methods.
 
+---------------------------> Threading <---------------------------
+
+import _thread
+
+_thread.start_new_thread(function, function_parameters_tuple)
+
+import threading
+thread = threading.Thread(target = function, args = (arg1, ))
+thread.start() - start thread.
+thread.join() - wait thread to finish.
+thread.getName() - get thread name.
+thread.setName(name) - set thread name.
+thread.is_alive() - true if thread is alive.
+
+---------------------------> Subclassing threading
+
+class Mythread(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        ...
+    def run(self):
+        ...
+
+---------------------------> Lock
+
+lock = threading.Lock()
+lock.acquaire()
+lock.release()
+with lock:
+    ...
+
+---------------------------> Condition
+
+condition = threading.Condition()
+condition.wait()
+condition.wait_for()
+condition.notify()
+condition.notify_all()
+
+---------------------------> Semaphore
+
+semaphore = threading.Semaphore(max_threads_to_enter)
+with semaphore
+
+---------------------------> Timer
+
+timer = threading.Timer(time_to_wait, function, (arguments))
+timer.start()
+timer.join()
+timer.cancel()
+
+---------------------------> Event
+
+event = threading.Event()
+event.set()
+event.wait()
+event.clear()
+
+---------------------------> Barrier
+
+barrier = threading.Barrier(number_of_threads)
+barrier.wait() - wait for number_of_threads to reach this point and start them at the same time
