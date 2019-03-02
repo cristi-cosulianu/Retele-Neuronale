@@ -14,7 +14,7 @@ def problema3(path):
             file_conetent = open(os.path.join(root, file), "rt").read()
             md5_content = hashlib.md5()
             md5_content.update(file_conetent.encode("utf-8"))
-            return_dict[file] = md5_content.hexdigest()
+            return_dict[file] = md5_content.digest()
 
     return return_dict
 

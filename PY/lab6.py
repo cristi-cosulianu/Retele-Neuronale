@@ -16,7 +16,7 @@ def extract_words(text):
 #Sa se scrie o functie care primeste ca parametru un sir de caractere regex, un sir de caractere text si un numar intreg x si returneaza acele substring-uri de lungime maxim x care fac match pe expresia regulata data.
 
 def get_substrings(expression, text, max_lenght):
-    compiled_expression = re.compile(expression + "{1," + str(max_lenght) + "}")
+    compiled_expression = re.compile(expression)
     return re.findall(compiled_expression, text)
 
 #print(get_substrings("\w", "Sa se scrie o functie care extrage cuvintele dintr-un text dat ca parametru. Un cuvant este definit ca o secventa de caractere alfa-numerice.", 4))

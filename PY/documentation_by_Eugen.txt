@@ -105,6 +105,7 @@ chr(x) - x is unicode code value and returns the coresponding character
 ord(x) - returns the unicode of c (char)
 hex(x) - conversts x number in lowercase hex representation
 map(function, iterable) - return an iterable (has to be casted to a type)
+round(x, nr_zecimals) -  round x with nr_zecimals
 filter(function, iterable) - the function has to return boolean
                            - selects the elements that return true in function
 max(x, key=) - return the biggest element from x (key=lambda)
@@ -276,7 +277,7 @@ z.writestr(in_zip_name, str) - create a file in zip with in_zip_name and with st
 z.is_zipfile(filename)
 
 z.infolist() - return list of files and directories from zipfile
-    for i in z:
+    for i in z.infolist():
     i.filename - file path
     i.file_size - file size
     i.compress_size - file size in zip
